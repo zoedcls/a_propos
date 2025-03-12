@@ -10,18 +10,14 @@ def home():
 
 @app.route('/about')
 def about():
-    return "À propos de moi : Je suis en train d'apprendre à développer des applications web avec Flask !"
+    
 
-@app.route('/carte')
-def carte():
-    # Créer la carte
     coordGareFrethun = (50.901235, 1.811054)
     coordGareCalaisVille = (50.9536, 1.8509)
     coordUniversite = (50.9532, 1.8804)
     
     m = folium.Map(location=(50.95, 1.88), zoom_start=12, tiles="cartodb positron")
-    
-    # Ajouter les marqueurs
+
     folium.Marker(
         location=[coordUniversite[0], coordUniversite[1]],
         tooltip="Click me!",
@@ -43,7 +39,7 @@ def carte():
         icon=folium.Icon(icon='3', prefix='fa', color='green'),
     ).add_to(m)
     
-    # Ajouter les lignes et distances
+  
     distance = geodesic(coordUniversite, coordGareFrethun).kilometers
     folium.PolyLine(locations=[coordUniversite, coordGareFrethun], color='blue').add_to(m)
     folium.Marker(
@@ -58,11 +54,11 @@ def carte():
         icon=folium.DivIcon(html=f'<div style="font-size: 12pt; color: blue;">{distance:.2f} km</div>')
     ).add_to(m)
     
-    # Sauvegarder la carte dans un fichier HTML temporaire
+   
     carte_html = m._repr_html_()
     
-    # Retourner la carte directement dans le navigateur
-    return carte_html
+    
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
